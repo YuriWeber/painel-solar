@@ -1,6 +1,9 @@
 import { GoogleMap, LoadScript } from '@react-google-maps/api';
+// import dotenv from 'dotenv'
 
 import '../styles/components/mapviewer.sass'
+
+// dotenv.config();
 
 const containerStyle = {
   width: '400px',
@@ -14,19 +17,21 @@ const center = {
 
 const MapViewer = () => {
   return (
-    <LoadScript
-      googleMapsApiKey="AIzaSyA0Z6lkNhCOhDY0qXmdISI_fcV2oFoco00"
-    >
-      <GoogleMap
-        mapContainerStyle={containerStyle}
-        center={center}
-        zoom={10}
-        options={ { streetView: false } }
+    <div>
+      <LoadScript
+          googleMapsApiKey={import.meta.env.VITE_GOOGLE_API_KEY}
       >
-        { /* Child components, such as markers, info windows, etc. */ }
-        <></>
-      </GoogleMap>
-  </LoadScript>
+          <GoogleMap
+            mapContainerStyle={containerStyle}
+            center={center}
+            zoom={10}
+            options={ { streetView: false } }
+          >
+            { /* Child components, such as markers, info windows, etc. */ }
+            <></>
+          </GoogleMap>
+      </LoadScript>
+    </div>
   )
 }
 
