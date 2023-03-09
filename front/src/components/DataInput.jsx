@@ -1,42 +1,102 @@
+import { useSelector } from 'react-redux';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { changeShowResult } from '../redux/resultSlice';
+import axios from 'axios';
+
 import '../styles/components/datainput.sass';
 
+const api = axios.create({
+  baseURL: import.meta.env.VITE_ECONOMIZA_SOLAR_API_URL
+})
+
 const DataInput = () => {
+  const [ monthlyConsumption, setMonthlyConsumption ] = useState('')
+  const [ kwhValue, setKwhValue ] = useState('')
+  const [ limitedArea, setLimitedArea ] = useState('')
+  const [ checkLimitedArea, setCheckLimitedArea ] = useState(false)
+  
+  const dispatch = useDispatch()
+  
+  async function handleSendClick() {
+    await api.get('/', {
+      params: {
+        monthlyConsumption,
+        kwhValue,
+        limitedArea
+      }
+    }).then(res => {
+      console.log(res)
+    }).catch(err => {
+      console.log(err)
+    })
+    dispatch(changeShowResult(true))
+  }
+
+  function handleMonthlyConsumption(event) {
+    const regex = new RegExp("^$|(?<=^| )\\d+(\\.)?(\\d+)?(?=$| )|(?<=^| )\\.\\d+(?=$| )")
+    const { value } = event.target
+    setMonthlyConsumption(state => regex.test(value) ? value : state)
+  }
+
+  function handleKwhValue(event) {
+    const regex = new RegExp("^$|(?<=^| )\\d+(\\.)?(\\d+)?(?=$| )|(?<=^| )\\.\\d+(?=$| )")
+    const { value } = event.target
+    setKwhValue(state => regex.test(value) ? value : state)
+  }
+
+  function handleLimitedArea(event) {
+    const regex = new RegExp("^[0-9]*$")
+    const { value } = event.target
+    setLimitedArea(state => regex.test(value) ? value : state)
+  }
+
   return (
     <div className="data-container">
       <div className="input">
-        <label className="inp" id="field1">
-          <input type="text" id="field1" />
-          <span className="label">field1</span>
+        <div className="inp">
+          <input 
+            type="text"
+            id="monthly-consumption" 
+            value={monthlyConsumption}
+            onChange={handleMonthlyConsumption}
+            maxLength="10"
+          />
+          <label htmlFor="monthly-consumption" className="label">Consumo Mensal (kWh)</label>
           <span className="focus-bg"></span>
-        </label>
-        <label className="inp" id="field2">
-          <input type="text" id="field2" />
-          <span className="label">field2</span>
+        </div>
+        <div className="inp">
+          <input 
+            type="text" 
+            id="kwh-value" 
+            value={kwhValue}
+            onChange={handleKwhValue}
+            maxLength="10"
+          />
+          <label htmlFor="kwh-value" className="label">Valor do kWh (R$)</label>
           <span className="focus-bg"></span>
-        </label>
-        <label className="inp" id="field3">
-          <input type="text" id="field3" />
-          <span className="label">field3</span>
-          <span className="focus-bg"></span>
-        </label>
-        <label className="inp" id="field4">
-          <input type="text" id="field4" />
-          <span className="label">field4</span>
-          <span className="focus-bg"></span>
-        </label>
-        <label className="inp" id="field5">
-          <input type="text" id="field5" />
-          <span className="label">field5</span>
-          <span className="focus-bg"></span>
-        </label>
-        <label className="inp" id="field6">
-          <input type="text" id="field6" />
-          <span className="label">field6</span>
-          <span className="focus-bg"></span>
-        </label>
+        </div>
+        <div className="switch">
+          <input type="checkbox" id="checkbox" onChange={() => setCheckLimitedArea(state => !state)} />
+          <label htmlFor="checkbox"></label>
+          <span htmlFor="checkbox">Limitar área disponível</span>
+        </div>
+        {checkLimitedArea && 
+          <div className="inp">
+            <input 
+              type="text" 
+              id="kwh-value" 
+              value={limitedArea}
+              onChange={handleLimitedArea}
+              maxLength="10"
+            />
+            <label htmlFor="kwh-value" className="label">Área limite (m²)</label>
+            <span className="focus-bg"></span>
+          </div>
+        }
       </div>
       <div className="send-container">
-        <button className="btn-send">Enviar</button>
+        <button className="btn-send" onClick={handleSendClick}>Consultar</button>
       </div>
     </div>
   )
