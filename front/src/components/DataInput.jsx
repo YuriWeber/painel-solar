@@ -19,18 +19,24 @@ const DataInput = () => {
   const dispatch = useDispatch()
   
   async function handleSendClick() {
-    await api.get('/', {
-      params: {
-        monthlyConsumption,
-        kwhValue,
-        limitedArea
-      }
-    }).then(res => {
+    try {
+      await api.get('/', {
+        params: {
+          monthlyConsumption,
+          kwhValue,
+          limitedArea
+        }
+      }).then(res => {
       console.log(res)
-    }).catch(err => {
-      console.log(err)
-    })
-    dispatch(changeShowResult(true))
+      }).catch(err => {
+        console.log(err)
+      })
+      dispatch(changeShowResult(true))
+    } catch (error) {
+      
+    } finally {
+      
+    }
   }
 
   function handleMonthlyConsumption(event) {
