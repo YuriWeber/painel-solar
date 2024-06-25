@@ -1,4 +1,4 @@
-# painel-solar
+# Economiza Solar
 
 ## Configurando para execução em desenvolvimento
 ### API
