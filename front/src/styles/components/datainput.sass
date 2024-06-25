@@ -1,0 +1,164 @@
+@use '../variables'
+  
+.data-container
+  width: 40%
+  display: flex
+  flex-direction: column
+  justify-content: space-between
+
+  .send-container
+    display: flex
+    align-items: center
+    justify-content: center
+
+    .btn-send
+      width: 80%
+      height: 50px
+      background-color: rgba(variables.$button-color, .9)
+      color: variables.$text-color-secondary
+      font-size: 2rem
+      font-weight: 600
+      border: none
+      border-radius: variables.$field-border-radius
+      transition: 100ms
+
+      &:active
+        background-color: variables.$button-color
+        color: rgba(variables.$text-color-secondary, .8)
+      
+      &:disabled
+        background-color: variables.$bg-color-secondary
+    .searching
+      width: 80%
+      height: 50px
+      background-color: rgba(variables.$button-color, .4)
+      color: variables.$text-color-secondary
+      font-size: 2rem
+      font-weight: 600
+      border: none
+      border-radius: variables.$field-border-radius
+
+  .input 
+    display: flex
+    align-items: flex-start
+    justify-content: flex-start
+    flex-wrap: wrap
+ 
+  .inp
+    position: relative
+    margin: auto
+    width: 100%
+    max-width: 220px
+    border-radius: 3px
+    overflow: hidden
+    margin: 5px
+
+    .label
+      position: absolute
+      top: 20px
+      left: 12px
+      font-size: 16px
+      color: rgba(variables.$text-dark,.5)
+      font-weight: 500
+      transform-origin: 0 0
+      transition: all .2s ease
+      pointer-events: none
+      transform: translate3d(0,-12px,0) scale(.75)
+
+    .focus-bg
+      position: absolute
+      top: 0
+      left: 0
+      width: 100%
+      height: 100%
+      background: rgba(variables.$text-dark,.05)
+      z-index: -1
+      transform: scaleX(0)
+      transform-origin: left
+
+    input
+      -webkit-appearance: none
+      appearance: none
+      width: 100%
+      border: 0
+      border-radius: variables.$field-border-radius variables.$field-border-radius 0 0
+      font-family: inherit
+      padding: 16px 12px 0 12px
+      height: 56px
+      font-size: 16px
+      font-weight: 400
+      background: rgba(variables.$text-dark,.1)
+      box-shadow: inset 0 -1px 0 rgba(variables.$text-dark,.3)
+      color: variables.$text-dark
+      transition: all .15s ease
+
+      &:hover
+        background: rgba(variables.$text-dark,.08)
+        box-shadow: inset 0 -1px 0 rgba(variables.$text-dark,.5)
+      
+      &:not(:placeholder-shown)
+        + .label
+          color: rgba(variables.$text-dark,.5)
+      
+      &:focus
+        background: rgba(variables.$text-dark,.08)
+        outline: none
+        box-shadow: inset 0 -2px 0 variables.$text-primary
+        + .label
+          color: variables.$text-primary
+          + .focus-bg
+            transition: all .1s ease
+  
+  .switch
+    position: relative
+    margin: 10px
+    width: 100%
+    input[type='checkbox']
+      visibility: hidden
+
+      &:checked
+        + label
+          background-color: variables.$border-color
+          &:after
+            transform: translateX(27px)
+          + span
+            color: variables.$text-primary
+    label
+      position: absolute
+      width: 50px
+      height: 23px
+      top: 0
+      left: 0
+      background-color: variables.$bg-color
+      border-radius: 50px
+      transition: 100ms
+      &:after
+        content: ''
+        width: 25px
+        height: 25px
+        background-color: variables.$bg-color-secondary
+        position: absolute
+        left: -1px
+        top: -1px
+        border-radius: 50%
+        box-shadow: 0 0 4px #999
+        transition: 100ms
+
+    span
+      margin-left: 50px
+      font-size: 1.1rem
+      font-weight: bold
+      color: rgba(variables.$text-dark,0.4)
+
+  span
+    margin-left: 10px
+    font-size: 1.1rem
+    font-weight: bold
+    color: rgba(variables.$text-dark,0.4)
+  .address
+    margin-left: 10px
+    font-size: 1.1rem
+    font-weight: bold
+    color: rgba(variables.$text-dark,0.8)
+  .address-container
+      flex-basis: 100%
